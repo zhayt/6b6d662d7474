@@ -1,0 +1,60 @@
+version: "3.9"
+
+networks:
+  internal:
+    driver: bridge
+
+volumes:
+  data:
+
+
+services:
+  mssql:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    restart: always
+    volumes:
+      - ./db-setup:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - internal
+    environment:
+      ACCEPT_EULA: Y
+      SA_PASSWORD: kursPswdsuper1
+    ports:
+      - "1433:1433"
+
+  setup-db:
+    image: zhaisanbay/setub-db:2023
+    networks:
+      - internal
+    environment:
+      - DRIVER=mssql
+      - CONN_URL=sqlserver://sa:kursPswdsuper1@mssql:1433?database=master&connection+timeout=30
+    ports:
+      - "8000:8000"
+    depends_on:
+      - mssql
+
+  migration:
+    image: zhaisanbay/migaration-currency:2023
+    networks:
+      - internal
+    environment:
+      - DRIVER=mssql
+      - CONN_URL=sqlserver://sa:kursPswdsuper1@mssql:1433?database=TEST&connection+timeout=30
+    ports:
+      - "4000:4000"
+    depends_on:
+      - mssql
+      - setup-db
+
+  web-service:
+    build: .
+    restart: always
+    networks:
+      - internal
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mssql
+      - setup-db
+      - migration
