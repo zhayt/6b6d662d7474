@@ -35,7 +35,7 @@ services:
       - mssql
 
   migration:
-    image: zhaisanbay/migaration-currency:last
+    image: zhaisanbay/migaration-currency:2023_3
     networks:
       - internal
     environment:
