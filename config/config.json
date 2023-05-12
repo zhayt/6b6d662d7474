@@ -1,7 +1,7 @@
 {
   "database": {
     "driver": "mssql",
-    "dsn": "sqlserver://sa:kursPswdsuper1@localhost:1433?database=TEST&connection+timeout=30"
+    "dsn": "sqlserver://sa:kursPswdsuper1@mssql:1433?database=TEST&connection+timeout=30"
   },
   "app": {
     "port": "8080",
