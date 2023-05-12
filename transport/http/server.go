@@ -17,7 +17,7 @@ type Server struct {
 
 func NewServer(cfg *config.Config, handler *handler.Handler) *Server {
 	srv := &http.Server{
-		Addr:         net.JoinHostPort(":", cfg.App.Port),
+		Addr:         net.JoinHostPort("", cfg.App.Port),
 		ReadTimeout:  5 * time.Second,
 		WriteTimeout: 10 * time.Second,
 	}
