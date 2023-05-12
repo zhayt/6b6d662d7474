@@ -1,0 +1,7 @@
+CREATE TABLE IF NOT EXISTS R_CURRENCY (
+    ID INT IDENTITY(1,1) PRIMARY KEY,
+    TITLE varchar(60) NOT NULL,
+    CODE varchar(3) NOT NULL,
+    VALUE numeric(18,2) NOT NULL,
+    A_DATE date not null
+);
