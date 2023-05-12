@@ -6,4 +6,10 @@ stop-db:
 
 
 init-db: up-db
-	sleep 10 && docker exec -it mssql-22 /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P kursPswdsuper1 -Q "CREATE DATABASE TEST"
+	sleep 10 && docker exec -it kmftw_mssql_1 /opt/mssql-tools/bin/sqlcmd -U sa -P kursPswdsuper1 -Q "CREATE DATABASE TEST"
+
+run:
+	docker-compose up
+
+stop:
+	docker-compose down
