@@ -32,7 +32,8 @@ func (s *CurrencyService) SaveCurrency(ctx context.Context, date string) error {
 	// validate data
 	dateTime, err := time.Parse("02.01.2006", date)
 	if err != nil {
-		return fmt.Errorf("%w, failde to parse date: %w", ErrUserStupid, err)
+		s.l.Error("Parse date error", zap.Error(err))
+		return fmt.Errorf("failde to parse date: %w", ErrUserStupid)
 	}
 
 	// work with external api
@@ -63,7 +64,11 @@ func (s *CurrencyService) SaveCurrency(ctx context.Context, date string) error {
 			ADate: dateTime,
 		}
 
-		go s.currency.SaveCurrency(ctx, currency)
+		go func() {
+			if err := s.currency.SaveCurrency(ctx, currency); err != nil {
+				s.l.Error("SaveCurrency error", zap.Error(err))
+			}
+		}()
 	}
 
 	return nil
@@ -73,7 +78,8 @@ func (s *CurrencyService) GetCurrency(ctx context.Context, date string, code str
 	// validate data
 	dateTime, err := time.Parse("02.01.2006", date)
 	if err != nil {
-		return []model.Currency{}, fmt.Errorf("%w, failde to parse date: %w", ErrUserStupid, err)
+		s.l.Error("Parse date error", zap.Error(err))
+		return []model.Currency{}, fmt.Errorf("failde to parse date: %w", ErrUserStupid)
 	}
 
 	if code == "" {

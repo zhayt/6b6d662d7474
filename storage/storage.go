@@ -10,7 +10,7 @@ import (
 )
 
 type ICurrencyStorage interface {
-	SaveCurrency(ctx context.Context, currency model.Currency)
+	SaveCurrency(ctx context.Context, currency model.Currency) error
 	GetCurrencyByDate(ctx context.Context, dateTime time.Time) ([]model.Currency, error)
 	GetCurrencyByDateCode(ctx context.Context, dateTime time.Time, code string) ([]model.Currency, error)
 }

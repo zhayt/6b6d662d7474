@@ -2,6 +2,7 @@ package mssql
 
 import (
 	"context"
+	"fmt"
 	"github.com/jmoiron/sqlx"
 	"github.com/zhayt/kmf-tt/model"
 	"go.uber.org/zap"
@@ -17,13 +18,15 @@ func NewStorage(db *sqlx.DB, l *zap.Logger) *CurrencyStorage {
 	return &CurrencyStorage{db: db, l: l}
 }
 
-func (r *CurrencyStorage) SaveCurrency(ctx context.Context, currency model.Currency) {
+func (r *CurrencyStorage) SaveCurrency(ctx context.Context, currency model.Currency) error {
 	qr := `INSERT INTO R_CURRENCY (TITLE, CODE, VALUE, A_DATE) VALUES (?, ?, ?, ?)`
 
 	_, err := r.db.ExecContext(ctx, qr, currency.Title, currency.Code, currency.Value, currency.ADate)
 	if err != nil {
-		r.l.Error("save currency error", zap.Error(err))
+		return fmt.Errorf("couldn't save currency: %w", err)
 	}
+
+	return nil
 }
 
 func (r *CurrencyStorage) GetCurrencyByDate(ctx context.Context, date time.Time) ([]model.Currency, error) {
