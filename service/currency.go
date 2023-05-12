@@ -33,7 +33,7 @@ func (s *CurrencyService) SaveCurrency(ctx context.Context, date string) error {
 	// validate data
 	dateTime, err := time.Parse("02.01.2006", date)
 	if err != nil {
-		return fmt.Errorf("failde to parse date: %w", err)
+		return fmt.Errorf("%w, failde to parse date: %w", ErrUserStupid, err)
 	}
 
 	// work with external api

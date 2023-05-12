@@ -1,6 +1,9 @@
 package service
 
-import "encoding/xml"
+import (
+	"encoding/xml"
+	"errors"
+)
 
 type Rates struct {
 	XMLName xml.Name
@@ -12,3 +15,5 @@ type Item struct {
 	Title       string  `xml:"title"`
 	Description float64 `xml:"description"`
 }
+
+var ErrUserStupid = errors.New("user error")
