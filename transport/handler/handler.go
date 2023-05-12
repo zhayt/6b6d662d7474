@@ -21,6 +21,18 @@ func (h *Handler) SaveCurrency(w http.ResponseWriter, r *http.Request) {
 
 	h.l.Info("Get url param", zap.String("date", date))
 
+	if err := h.currency.SaveCurrency(context.TODO(), date); err != nil {
+
+		if errors.Is(err, service.ErrUserStupid) {
+			h.respondWithError(w, http.StatusBadRequest, "The entered date is not valid.")
+			return
+		}
+
+		h.respondWithError(w, http.StatusInternalServerError, "Couldn't save currency")
+		return
+	}
+
+	h.respondWithSuccess(w, http.StatusOK)
 }
 
 func (h *Handler) ShowCurrency(w http.ResponseWriter, r *http.Request) {
