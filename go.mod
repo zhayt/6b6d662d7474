@@ -9,6 +9,9 @@ require (
 	github.com/golang-sql/sqlexp v0.1.0 // indirect
 	github.com/gorilla/mux v1.8.0 // indirect
 	github.com/jmoiron/sqlx v1.3.5 // indirect
+	github.com/json-iterator/go v1.1.12 // indirect
+	github.com/modern-go/concurrent v0.0.0-20180228061459-e0a39a4cb421 // indirect
+	github.com/modern-go/reflect2 v1.0.2 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/stretchr/objx v0.5.0 // indirect
 	github.com/stretchr/testify v1.8.2 // indirect
