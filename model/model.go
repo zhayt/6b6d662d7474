@@ -3,17 +3,9 @@ package model
 import "time"
 
 type Currency struct {
-	ID    int
-	Title string
-	Code  string
-	Value float64
-	ADate time.Time
-}
-
-type SuccessResponse struct {
-	Success bool `json:"success"`
-}
-
-type ErrorResponse struct {
-	Message string `json:"message"`
+	ID    int       `json:"-" db:"ID"`
+	Title string    `json:"title" db:"TITLE"`
+	Code  string    `json:"code" db:"CODE"`
+	Value float64   `json:"value" db:"VALUE"`
+	ADate time.Time `json:"ADate" db:"A_DATE"`
 }
