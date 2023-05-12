@@ -14,8 +14,7 @@ import (
 
 type ICurrencyService interface {
 	SaveCurrency(ctx context.Context, date string) error
-	GetCurrencyByDate(ctx context.Context, date string) ([]model.Currency, error)
-	GetCurrencyByDateCode(ctx context.Context, date string, code string) ([]model.Currency, error)
+	GetCurrency(ctx context.Context, date string, code string) ([]model.Currency, error)
 }
 
 type CurrencyService struct {
@@ -68,6 +67,20 @@ func (s *CurrencyService) SaveCurrency(ctx context.Context, date string) error {
 	}
 
 	return nil
+}
+
+func (s *CurrencyService) GetCurrency(ctx context.Context, date string, code string) ([]model.Currency, error) {
+	// validate data
+	dateTime, err := time.Parse("02.01.2006", date)
+	if err != nil {
+		return []model.Currency{}, fmt.Errorf("%w, failde to parse date: %w", ErrUserStupid, err)
+	}
+
+	if code == "" {
+		return s.currency.GetCurrencyByDate(ctx, dateTime)
+	}
+
+	return s.currency.GetCurrencyByDateCode(ctx, dateTime, code)
 }
 
 func makeURL(api, date string) string {

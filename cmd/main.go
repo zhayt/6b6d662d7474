@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/zhayt/kmf-tt/config"
+	_ "github.com/zhayt/kmf-tt/docs"
 	"github.com/zhayt/kmf-tt/logger"
 	"github.com/zhayt/kmf-tt/service"
 	"github.com/zhayt/kmf-tt/storage"
@@ -15,6 +16,12 @@ import (
 	"syscall"
 )
 
+// @title KMF Currency API
+// @version 1.0
+// @description API service for work currency
+// @termsOfService	http://swagger.io/terms/
+// @host localhost:8080
+// @BasePath /api/v1
 func main() {
 	if err := run(); err != nil {
 		log.Fatalln(err)
@@ -22,11 +29,13 @@ func main() {
 }
 
 func run() error {
+	// config
 	cfg, err := config.NewConfig()
 	if err != nil {
 		return err
 	}
 
+	// logger
 	l, err := logger.Init(cfg)
 	if err != nil {
 		return fmt.Errorf("cannot init logger: %w", err)

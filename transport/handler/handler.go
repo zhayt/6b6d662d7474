@@ -27,6 +27,17 @@ func NewHandler(currency *service.CurrencyService, l *zap.Logger) *Handler {
 	return &Handler{currency: currency, l: l}
 }
 
+// SaveCurrency godoc
+// @Summary SaveCurrency
+// @Tags currency
+// @Description save currency
+// @ID save-currency
+// @Produce json
+// @Param		date	path string	true	"date"
+// @Success 200 {object} SuccessResponse
+// @Failure		400		{object}	ErrorResponse
+// @Failure		500		{object}	ErrorResponse
+// @Router		/currency/save/{date} [get]
 func (h *Handler) SaveCurrency(w http.ResponseWriter, r *http.Request) {
 	date := mux.Vars(r)["date"]
 
@@ -50,6 +61,19 @@ func (h *Handler) SaveCurrency(w http.ResponseWriter, r *http.Request) {
 	h.respondWithSuccess(w, http.StatusOK)
 }
 
+// ShowCurrency godoc
+// @Summary ShowCurrency
+// @Tags currency
+// @Description get currency
+// @ID show-currency
+// @Produce json
+// @Param		date	path string	true	"date"
+// @Param code path string false "code (default: \"\")"
+// @Success 200 {object} []model.Currency
+// @Failure		400		{object}	ErrorResponse
+// @Failure     404 {object} ErrorResponse
+// @Failure		500		{object}	ErrorResponse
+// @Router	/currency/{date}/{code} [get]
 func (h *Handler) ShowCurrency(w http.ResponseWriter, r *http.Request) {
 	date := mux.Vars(r)["date"]
 	code := mux.Vars(r)["code"]
